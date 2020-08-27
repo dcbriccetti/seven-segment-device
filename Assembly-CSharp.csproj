@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\SegmentDisplay.cs" />
-     <Compile Include="Assets\Scripts\Digits.cs" />
+     <Compile Include="Assets\Scripts\MultiDigitNumber.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Users/daveb/devel/unity/7-Segment Device/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

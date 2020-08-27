@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 1352840980}
   - component: {fileID: 1352840981}
   m_Layer: 0
-  m_Name: Digits
+  m_Name: MultiDigitNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

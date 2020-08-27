@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
 using UnityEngine;
+using static System.Linq.Enumerable;
 
 public class SegmentDisplay : MonoBehaviour {
     public Transform segmentPrefab;
     public Material onMaterial;
     public Material offMaterial;
-    private readonly Transform[] segments = new Transform[7];
+    private Transform[] segments;
 
     private static int Encode(params int[] segments) => 
         segments.Aggregate(0, (sum, x) => sum + (int) Math.Pow(2, x));
@@ -34,32 +33,17 @@ public class SegmentDisplay : MonoBehaviour {
 
     private void Awake() {
         Bounds segmentBounds = GetComponent<MeshFilter>().sharedMesh.bounds;
-        segmentBounds.Expand(-segmentBounds.size.y * .3f); // Leave a margin
+        segmentBounds.Expand(-segmentBounds.size.y * .27f); // Leave a margin
         float[] x =   {   .5f,   .5f,   .5f,    0,    1,    0,    1 };
         float[] y =   {     0,   .5f,     1, .75f, .75f, .25f, .25f };
         bool[] vert = { false, false, false, true, true, true, true };
         var pos = transform.position;
         Vector3 dims = segmentBounds.size;
-        var botLeft = segmentBounds.min;
-        for (int i = 0; i < 7; i++) {
-            segments[i] = Instantiate(segmentPrefab, new Vector3(
-                    pos.x + botLeft.x + x[i] * dims.x,
-                    pos.y + botLeft.y + y[i] * dims.y, 
-                    -.1f),
-                Quaternion.Euler(0, 0, vert[i] ? 0 : 90), transform);
-        }
-
-        // StartCoroutine(nameof(Cycle));
-    }
-
-
-    private IEnumerator Cycle() {
-        while (true) {
-            LightSegments();
-
-            yield return new WaitForSeconds(.5f);
-            digitShowing = (digitShowing + 1) % 10;
-        }
+        var min = segmentBounds.min;
+        segments = Range(0, 7).Select(i => Instantiate(segmentPrefab, new Vector3(
+            pos.x + min.x + x[i] * dims.x,
+            pos.y + min.y + y[i] * dims.y, 
+            -.1f), Quaternion.Euler(0, 0, vert[i] ? 0 : 90), transform)).ToArray();
     }
 
     private void LightSegments() {
